@@ -1,0 +1,30 @@
+li {
+    margin-top: 10px;
+    border-bottom: 1px red solid;
+    margin-bottom: 5px;
+}
+
+span {
+    margin-right: 5px;
+}
+
+.text-success {
+    color: green;
+}
+
+.text-warning {
+    color: red
+}
+
+.parent-part {
+    display: flex;
+    flex-direction: column;
+}
+
+.update-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 15px;
+    margin-bottom: 5px;
+}

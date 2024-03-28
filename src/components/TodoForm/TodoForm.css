@@ -1,0 +1,13 @@
+input {
+    margin-right: 3px;
+}
+
+.Parent {
+    align-self: center;
+}
+
+.Form-part {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
