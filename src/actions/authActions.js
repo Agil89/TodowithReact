@@ -1,35 +1,47 @@
-// actions/authActions.js
-import axios from 'axios';
-import { LOGIN_USER, LOGIN_USER_FAILURE, LOGOUT_USER, CLEAR_ERROR } from './types';
-
-const ACCESS_TOKEN = localStorage.getItem('token')
-const axiosInstance = axios.create({
-  baseURL: 'http://127.0.0.1:5002',
-  headers: {
-    'Content-Type': 'application/json',
-    'Authorization': `Bearer ${ACCESS_TOKEN}`
-  },
-  
-});
+import { CLEAR_ERROR, LOGIN_USER, LOGIN_USER_FAILURE, LOGOUT_USER } from "./types";
 
 export const loginUser = (userData) => async (dispatch) => {
   try {
-    const res = await axiosInstance.post('/login', userData);
-    dispatch({ type: LOGIN_USER, payload: res.data });
-    const access_token = res.data.access_token
-    localStorage.setItem('token', access_token);
-    if(res.data.success == false){
-      dispatch({ type: LOGIN_USER_FAILURE, payload: res.data });
+    const response = await fetch('http://128.140.7.40:5000/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(userData)
+    });
+    
+    const data = await response.json();
+    
+    if (response.ok) {
+      const access_token = data.access_token;
+      localStorage.setItem('token', access_token);
+      dispatch({ type: LOGIN_USER, payload: data });
+    } else {
+      dispatch({ type: LOGIN_USER_FAILURE, payload: data });
     }
   } catch (error) {
     console.error('Error logging in:', error);
   }
 };
 
-export const logoutUser = () => ({
-  type: LOGOUT_USER,
-});
+export const logoutUser = () => async (dispatch) => {
+  try {
+    localStorage.removeItem('token');
+    const headers = new Headers();
+    headers.append('Content-Type', 'application/json');
+    headers.append('Authorization', '');
+    
+    const requestOptions = {
+      method: 'GET', 
+      headers: headers,
+      
+    };
 
+    dispatch({ type: LOGOUT_USER });
+  } catch (error) {
+    console.error('Error logging out:', error);
+  }
+};
 
 export const clearError = () => ({
   type: CLEAR_ERROR,
