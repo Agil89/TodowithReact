@@ -2,7 +2,7 @@ import { CLEAR_ERROR, LOGIN_USER, LOGIN_USER_FAILURE, LOGOUT_USER,CHECK_LOGIN_ST
 
 export const loginUser = (userData) => async (dispatch) => {
   try {
-    const response = await fetch('128.140.7.40:5000/login', {
+    const response = await fetch('http://128.140.7.40:5000/login', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'

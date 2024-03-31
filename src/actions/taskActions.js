@@ -1,7 +1,7 @@
 import { ADD_TASK, GET_TASKS, GET_TASKS_PER_PAGE, LOGIN_USER, SET_SORT_BY, UPDATE_PAGE_NUMBER } from './types';
 import { UPDATE_TASK } from './types';
 
-const BASE_URL = '128.140.7.40:5000';
+const BASE_URL = 'http://128.140.7.40:5000';
 
 export const addTask = (task) => async (dispatch) => {
   try {
