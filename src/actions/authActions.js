@@ -1,8 +1,8 @@
-import { CLEAR_ERROR, LOGIN_USER, LOGIN_USER_FAILURE, LOGOUT_USER } from "./types";
+import { CLEAR_ERROR, LOGIN_USER, LOGIN_USER_FAILURE, LOGOUT_USER,CHECK_LOGIN_STATUS } from "./types";
 
 export const loginUser = (userData) => async (dispatch) => {
   try {
-    const response = await fetch('http://128.140.7.40:5000/login', {
+    const response = await fetch('128.140.7.40:5000/login', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -46,3 +46,8 @@ export const logoutUser = () => async (dispatch) => {
 export const clearError = () => ({
   type: CLEAR_ERROR,
 });
+
+export const checkLoginStatus = () => (dispatch) => {
+  const isAuthenticated = !!localStorage.getItem('token');
+  dispatch({ type: CHECK_LOGIN_STATUS, payload: { isAuthenticated } });
+};

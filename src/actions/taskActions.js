@@ -1,11 +1,19 @@
-import { ADD_TASK, GET_TASKS, GET_TASKS_PER_PAGE, LOGIN_USER } from './types';
+import { ADD_TASK, GET_TASKS, GET_TASKS_PER_PAGE, LOGIN_USER, SET_SORT_BY, UPDATE_PAGE_NUMBER } from './types';
 import { UPDATE_TASK } from './types';
 
-const BASE_URL = 'http://128.140.7.40:5000';
+const BASE_URL = '128.140.7.40:5000';
 
 export const addTask = (task) => async (dispatch) => {
   try {
+    const { username, email, text, status } = task;
+
     const ACCESS_TOKEN = localStorage.getItem('token');
+    const requestBody = {
+      username,
+      email,
+      text,
+      status
+    };
 
     const requestOptions = {
       method: 'POST',
@@ -15,7 +23,7 @@ export const addTask = (task) => async (dispatch) => {
       } : {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(task)
+      body: JSON.stringify(requestBody) 
     };
 
     const response = await fetch(`${BASE_URL}/create_task`, requestOptions);
@@ -30,9 +38,19 @@ export const addTask = (task) => async (dispatch) => {
   }
 };
 
+
 export const updateTask = (task) => async (dispatch) => {
   try {
+    const { username, email, text, status } = task;
     const ACCESS_TOKEN = localStorage.getItem('token');
+
+    const requestBody = {
+      username,
+      email,
+      text,
+      status
+    };
+
 
     const requestOptions = {
       method: 'POST',
@@ -57,35 +75,17 @@ export const updateTask = (task) => async (dispatch) => {
   }
 };
 
-export const getTasks = () => async (dispatch) => {
-  try {
-    const ACCESS_TOKEN = localStorage.getItem('token');
 
-    const response = await fetch(`${BASE_URL}/tasks`, {
-      method: 'GET',
-      headers: ACCESS_TOKEN ? {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${ACCESS_TOKEN}`
-      } : {
-        'Content-Type': 'application/json',
-      }
-    });
-    
-    if (response.ok) {
-      const data = await response.json();
-      dispatch({ type: GET_TASKS, payload: data });
-    } else {
-      throw new Error('Failed to fetch tasks');
-    }
-  } catch (error) {
-    console.error('Error fetching tasks:', error);
-  }
-};
-
-export const getTasksPerPage = (page) => dispatch => {
+export const getTasksPerPage = (page, sortBy) => dispatch => {
   const ACCESS_TOKEN = localStorage.getItem('token');
 
-  const url = `${BASE_URL}/get_tasks?page=${page}`;
+  let url = `${BASE_URL}/get_tasks?page=${page}`;
+
+  if (sortBy) {
+    url += `&sort=${sortBy}`;
+    dispatch({ type: SET_SORT_BY, payload: sortBy });
+  }
+
   const requestOptions = {
     method: 'GET',
     headers: ACCESS_TOKEN ? {
@@ -109,4 +109,12 @@ export const getTasksPerPage = (page) => dispatch => {
     .catch(error => {
       console.error('Error fetching tasks:', error);
     });
+};
+
+
+export const updatePageNumber = (pageNumber) => {
+  return {
+    type: UPDATE_PAGE_NUMBER,
+    payload: pageNumber
+  };
 };

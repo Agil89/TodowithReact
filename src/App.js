@@ -1,3 +1,5 @@
+// App.js
+
 import React, { useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import { connect } from "react-redux";
@@ -6,15 +8,17 @@ import Logout from "./components/Logout/Logout";
 import TodoForm from "./components/TodoForm/TodoForm";
 import TodoList from "./components/TodoList/TodoList";
 import UpdateTodo from "./components/UpdateToDo/UpdateToDo";
-import { getTasks } from "./actions/taskActions";
+import { getTasksPerPage } from "./actions/taskActions";
+import { checkLoginStatus } from "./actions/authActions"; // Import the new action creator
 import { Provider } from "react-redux";
 import store from "./store/store";
 import './App.css'
 
-function App({ isAuthenticated, fetchTasks }) {
+function App({ isAuthenticated, fetchTasks, checkLogin }) {
   useEffect(() => {
+    checkLogin(); // Dispatch the CHECK_LOGIN_STATUS action when the component mounts
     fetchTasks();
-  }, [fetchTasks]);
+  }, [fetchTasks, checkLogin]);
 
   return (
     <Provider store={store}>
@@ -56,7 +60,8 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  fetchTasks: () => dispatch(getTasks()),
+  fetchTasks: () => dispatch(getTasksPerPage()),
+  checkLogin: () => dispatch(checkLoginStatus()), // Dispatch the checkLoginStatus action
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

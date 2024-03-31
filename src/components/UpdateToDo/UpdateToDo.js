@@ -10,12 +10,14 @@ const UpdateTodo = ({ tasks, updateTask, match }) => {
   const task = tasks.find((task) => task.id === parseInt(id));
   
   const [text, setText] = useState(task ? task.text : "");
+  const [email, setEmail] = useState(task ? task.email : "");
+  const [username, setUsername] = useState(task ? task.username : "");
   const [status, setStatus] = useState(task ? task.status : false);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    updateTask({ ...task, text, status });
-    navigate('/')
+    updateTask({ ...task, text, email, username, status });
+    navigate('/');
   };
 
   return (
@@ -26,6 +28,19 @@ const UpdateTodo = ({ tasks, updateTask, match }) => {
             type="text"
             value={text}
             onChange={(e) => setText(e.target.value)}
+            placeholder="Task"
+          />
+          <input
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder="Email"
+          />
+          <input
+            type="text"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            placeholder="Username"
           />
           <label>
             <input

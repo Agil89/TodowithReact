@@ -1,4 +1,4 @@
-import { LOGIN_USER, LOGOUT_USER, LOGIN_USER_FAILURE, CLEAR_ERROR } from "../actions/types";
+import { LOGIN_USER, LOGOUT_USER, LOGIN_USER_FAILURE, CLEAR_ERROR,CHECK_LOGIN_STATUS } from "../actions/types";
 
 const initialState = {
   isAuthenticated: false,
@@ -26,6 +26,11 @@ const authReducer = (state = initialState, action) => {
         ...state,
         error: action.payload.message,
       };
+    case CHECK_LOGIN_STATUS:
+    return {
+      ...state,
+      isAuthenticated: action.payload.isAuthenticated,
+    };
     case CLEAR_ERROR:
     return {
       ...state,

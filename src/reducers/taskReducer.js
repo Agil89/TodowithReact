@@ -1,8 +1,13 @@
-import { GET_TASKS, ADD_TASK, UPDATE_TASK, GET_TASKS_PER_PAGE } from "../actions/types";
+// taskReducer.js
+
+import { GET_TASKS, ADD_TASK, UPDATE_TASK, GET_TASKS_PER_PAGE, SET_SORT_BY, UPDATE_PAGE_NUMBER } from "../actions/types";
 
 const initialState = {
   tasks: [],
-  pages:''
+  pages:'',
+  pageNumber:1,
+  sortBy: '' 
+  
 };
 
 const taskReducer = (state = initialState, action) => {
@@ -13,12 +18,12 @@ const taskReducer = (state = initialState, action) => {
         tasks: action.payload.tasks,
         pages: action.payload.total_pages
       };
-      case GET_TASKS_PER_PAGE:
-        return {
-          ...state,
-          tasks: action.payload.tasks,
-          pages: action.payload.total_pages
-        };
+    case GET_TASKS_PER_PAGE:
+      return {
+        ...state,
+        tasks: action.payload.tasks,
+        pages: action.payload.total_pages
+      };
     case ADD_TASK:
       return {
         ...state,
@@ -34,6 +39,16 @@ const taskReducer = (state = initialState, action) => {
             : task
         ),
       };
+    case SET_SORT_BY:
+      return {
+        ...state,
+        sortBy: action.payload 
+      };
+    case UPDATE_PAGE_NUMBER:
+    return {
+      ...state,
+      pageNumber: action.payload
+    };
     default:
       return state;
   }

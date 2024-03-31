@@ -27,4 +27,32 @@ span {
     justify-content: center;
     margin-top: 15px;
     margin-bottom: 5px;
+    background-color: blue;
+    border: black 1px solid;
+    color: white;
+    text-decoration: none;
+}
+
+
+/* Todo.css */
+.todo-item {
+    background-color: #f8f9fa;
+    border: 1px solid #dee2e6;
+    border-radius: 5px;
+    padding: 15px;
+    margin-bottom: 10px;
+    width: 500px;
+}
+
+.todo-item.completed {
+    background-color: #d4edda;
+    border-color: #c3e6cb;
+}
+
+.todo-item h3 {
+    margin-top: 0;
+}
+
+.todo-item p {
+    margin: 5px 0;
 }

@@ -11,3 +11,14 @@ input {
     align-items: center;
     justify-content: center;
 }
+
+.sort-by {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.label-sort-by {
+    margin-right: 10px;
+}

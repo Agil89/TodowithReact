@@ -1,24 +1,26 @@
 import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import Todo from "../Todo/Todo";
-import { getTasks, getTasksPerPage } from "../../actions/taskActions";
-import { useSelector } from 'react-redux';
+import { getTasksPerPage, updatePageNumber } from "../../actions/taskActions"; 
+import { useSelector, useDispatch } from 'react-redux'; 
 import './TodoList.css';
 
-const TodoList = ({ tasks, pages, isAuthenticated, getTasks, getTasksPerPage }) => {
+const TodoList = ({ pages, isAuthenticated, getTasksPerPage, sortBy }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [tasksPerPage] = useState(3);
+  const dispatch = useDispatch(); 
 
   useEffect(() => {
-    getTasks(currentPage);
-  }, []);
+    getTasksPerPage(currentPage, sortBy);
+  }, []); 
 
   const my_tasks = useSelector(state => state.tasks.tasks);
 
   const paginate = async (pageNumber) => {
     if (pageNumber !== currentPage) {
-      await getTasksPerPage(pageNumber);
+      await getTasksPerPage(pageNumber, sortBy);
       setCurrentPage(pageNumber);
+      dispatch(updatePageNumber(pageNumber));
     }
   };
 
@@ -63,11 +65,11 @@ const TodoList = ({ tasks, pages, isAuthenticated, getTasks, getTasksPerPage }) 
 const mapStateToProps = state => ({
   tasks: state.tasks.tasks,
   pages: state.tasks.pages,
-  isAuthenticated: state.auth.isAuthenticated
+  isAuthenticated: state.auth.isAuthenticated,
+  sortBy: state.tasks.sortBy
 });
 
 const mapDispatchToProps = {
-  getTasks,
   getTasksPerPage
 };
 
