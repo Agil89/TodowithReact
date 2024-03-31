@@ -3,6 +3,7 @@ import { UPDATE_TASK } from './types';
 
 const BASE_URL = 'http://128.140.7.40:5000';
 
+
 export const addTask = (task) => async (dispatch) => {
   try {
     const { username, email, text, status } = task;
@@ -80,6 +81,14 @@ export const getTasksPerPage = (page, sortBy) => dispatch => {
   const ACCESS_TOKEN = localStorage.getItem('token');
 
   let url = `${BASE_URL}/get_tasks?page=${page}`;
+  if (!sortBy) {
+    const savedSortBy = localStorage.getItem('sortBy');
+    if (savedSortBy) {
+      sortBy = savedSortBy;
+    }
+  } else {
+    localStorage.setItem('sortBy', sortBy);
+  }
 
   if (sortBy) {
     url += `&sort=${sortBy}`;
